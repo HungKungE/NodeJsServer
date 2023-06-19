@@ -27,7 +27,7 @@ app.use(
     secret: process.env.SESSION_KEY,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({mongoUrl:`mongodb://localhost:27017/nodejs_server_db`}),
+    store: MongoStore.create({mongoUrl:`mongodb://localhost:27017/nodejs_session`}),
     cookie: {
       secure: false,
       maxAge: 24 * 60 * 60 * 1000, // 1일
