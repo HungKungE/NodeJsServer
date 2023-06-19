@@ -1,4 +1,4 @@
-
+import { sendPostRequest } from './api';
 
 export interface SignUpUserInfo {
   email: string;
@@ -8,5 +8,14 @@ export interface SignUpUserInfo {
 
 export interface SignInUserInfo {
   email : string,
-  psword : string
+  password : string
 }
+
+export const sendSignUpRequest = (userInfo: SignUpUserInfo) => {
+  const userData = {
+    email: userInfo.email,
+    password: userInfo.password.value,
+    nickname: userInfo.nickname,
+  };
+  return sendPostRequest("/user/signup", userData);
+};

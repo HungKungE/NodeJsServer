@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import Mococo from '../../Icons/Imgs/mococo.jpg';
 import { useState } from 'react';
 import SignUp from '../SignUp/SignUp';
@@ -10,9 +9,6 @@ export enum PAGE_TYPE {
 }
 
 const Index: React.FunctionComponent = () => {
-  const navigate = useNavigate();
-  const btnStyle = "border border-deeporange font-pretendardBold w-full m-[30px] px-4 py-2 rounded-[15px] text-deeporange";
-
   const [pageType, setPageType] = useState<PAGE_TYPE>(PAGE_TYPE.SIGNIN);
 
   const renderSignPage = () => {
