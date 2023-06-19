@@ -38,6 +38,15 @@ app.use(
 // api 엔드 포인트 등록
 app.use("", route);
 
+// build 파일 접근
+app.use(express.static(`${__dirname}/../client/build`));
+
+// react 앱과 연결
+app.get(`*`, (req, res) => {
+  let indexPath = path.join(__dirname, "../client/build/index.html");
+  res.sendFile(indexPath);
+});
+
 app.listen(port, () => console.log(`port: ${port}`));
 
 module.exports = app;
