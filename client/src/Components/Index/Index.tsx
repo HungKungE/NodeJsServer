@@ -1,4 +1,3 @@
-import Mococo from '../../Icons/Imgs/mococo.jpg';
 import { useState } from 'react';
 import SignUp from '../SignUp/SignUp';
 import SignIn from '../SignIn/SignIn';
@@ -25,10 +24,7 @@ const Index: React.FunctionComponent = () => {
   };
 
   return (
-    <div className='w-[1200px] h-[600px] flex flex-row bg-white rounded-[10px]'>
-      <div className='w-full h-full flex flex-col'>
-        <img className='rounded-l-[10px]' src={Mococo} alt=""></img>
-      </div>
+    <div className='w-[600px] h-[600px] flex flex-row rounded-[10px]'>
       {renderSignPage()}
     </div>
   );
