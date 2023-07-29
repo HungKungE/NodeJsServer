@@ -1,33 +1,29 @@
-import { useState } from 'react';
-import SignUp from '../SignUp/SignUp';
-import SignIn from '../SignIn/SignIn';
+import { useState } from "react";
+import SignUp from "../SignUp/SignUp";
+import SignIn from "../SignIn/SignIn";
 
 export enum PAGE_TYPE {
   SIGNIN,
-  SIGNUP
+  SIGNUP,
 }
 
 const Index: React.FunctionComponent = () => {
   const [pageType, setPageType] = useState<PAGE_TYPE>(PAGE_TYPE.SIGNIN);
 
   const renderSignPage = () => {
-    switch(pageType){
+    switch (pageType) {
       case PAGE_TYPE.SIGNUP:
-        return (
-          <SignUp setPageType={setPageType}/>
-        );
+        return <SignUp setPageType={setPageType} />;
       case PAGE_TYPE.SIGNIN:
-        return (
-          <SignIn setPageType={setPageType}/>
-        );
+        return <SignIn setPageType={setPageType} />;
     }
   };
 
   return (
-    <div className='w-[600px] h-[600px] flex flex-row rounded-[10px]'>
+    <div className="w-[600px] h-[600px] flex flex-row rounded-[10px]">
       {renderSignPage()}
     </div>
   );
-}
+};
 
 export default Index;

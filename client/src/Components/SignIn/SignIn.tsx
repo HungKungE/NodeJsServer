@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SignInUserInfo } from "../../API/user";
 import { PAGE_TYPE } from "../Index/Index";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../State/userinfo";
 import { sendLogInRequest } from "../../API/auth";
+import { useCookies } from "react-cookie";
 
 interface SignInProps {
   setPageType: (page_type: PAGE_TYPE) => void;
@@ -17,6 +18,22 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ setPageType }) => {
     password: "",
   });
   const [doRememberUserId, setRemember] = useState<boolean>(false);
+  const [cookies, setCookies, removeCookies] = useCookies(["rememberUserId"]);
+
+  useEffect(() => {
+    if (cookies.rememberUserId) {
+      setUserData({ ...userData, email: cookies.rememberUserId });
+      setRemember(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (doRememberUserId) {
+      setCookies("rememberUserId", userData.email);
+    } else {
+      removeCookies("rememberUserId");
+    }
+  }, [doRememberUserId]);
 
   const btnStyle =
     "border border-white border-opacity-20 font-pretendardBold w-full m-[30px] px-4 py-2 rounded-[15px] text-white";
