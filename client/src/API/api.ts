@@ -8,17 +8,27 @@ export const sendPostRequest = async (path: string, sendData: any | null) => {
 // image file을 포함하는 요청 -> multipart로 구현
 export const sendMultipartRequest = async (
   path: string,
-  formDatas?: File[]
+  stringData: string | null,
+  singleFile: File | null,
+  multiFiles: File[]
 ) => {
   const form = new FormData();
 
-  if (!formDatas) {
+  if (stringData) {
+    form.append("emoticon_name", stringData);
+  }
+
+  if (singleFile) {
+    form.append("mainItem", singleFile, "image0");
+  }
+
+  if (!multiFiles) {
     console.log("no ImgFiles!");
     return;
   }
 
-  formDatas.forEach((formData, i) => {
-    form.append("image", formData, "image" + i);
+  multiFiles.forEach((multiFile, i) => {
+    form.append("subItems", multiFile, "image" + (i + 1));
   });
 
   try {

@@ -1,22 +1,20 @@
 import { useRef, useState } from "react";
+import {
+  CreateEmoticon,
+  sendCreateEmoticonRequest,
+} from "../../../API/emoticon";
 
 interface UploadIconsModalProps {
   closeModal: () => void;
 }
 
-interface UploadIconData {
-  name: string;
-  main_pic: File | undefined;
-  icon_items: File[];
-}
-
 const UploadIconsModal: React.FunctionComponent<UploadIconsModalProps> = ({
   closeModal,
 }) => {
-  const [uploadIconData, setUploadIconData] = useState<UploadIconData>({
-    name: "",
-    main_pic: undefined,
-    icon_items: [],
+  const [uploadEmoticonData, setUploadEmoticonData] = useState<CreateEmoticon>({
+    emoticonName: "",
+    singleImage: null,
+    multiImages: [],
   });
 
   const mainPictureRef = useRef<HTMLInputElement | null>(null);
@@ -34,7 +32,7 @@ const UploadIconsModal: React.FunctionComponent<UploadIconsModalProps> = ({
       return;
     }
 
-    setUploadIconData({ ...uploadIconData, main_pic: files[0] });
+    setUploadEmoticonData({ ...uploadEmoticonData, singleImage: files[0] });
   };
 
   const handleFiles = (files: FileList) => {
@@ -53,9 +51,9 @@ const UploadIconsModal: React.FunctionComponent<UploadIconsModalProps> = ({
       fileList.add(files[i]);
     }
 
-    setUploadIconData({
-      ...uploadIconData,
-      icon_items: [...uploadIconData.icon_items, ...Array.from(fileList)],
+    setUploadEmoticonData({
+      ...uploadEmoticonData,
+      multiImages: [...uploadEmoticonData.multiImages, ...Array.from(fileList)],
     });
   };
 
@@ -73,18 +71,23 @@ const UploadIconsModal: React.FunctionComponent<UploadIconsModalProps> = ({
 
   const UploadIcons = () => {
     if (
-      !uploadIconData.name.length ||
-      !uploadIconData.main_pic ||
-      !uploadIconData.icon_items.length
+      !uploadEmoticonData.emoticonName.length ||
+      !uploadEmoticonData.singleImage ||
+      !uploadEmoticonData.multiImages.length
     ) {
       return;
     }
+
+    sendCreateEmoticonRequest(uploadEmoticonData).then((res) => {
+      console.log(res);
+      closeModal();
+    });
     /* 업로드 하는 api 추가 */
     /* 업로드 끝나면 closeModal */
   };
 
   const renderUploadedFile = () => {
-    if (!uploadIconData.main_pic) {
+    if (!uploadEmoticonData.singleImage) {
       return (
         <div
           className="border-2 w-[200px] h-[200px] text-center flex justify-center items-center hover:cursor-pointer"
@@ -105,7 +108,7 @@ const UploadIconsModal: React.FunctionComponent<UploadIconsModalProps> = ({
         >
           <img
             className="rounded-xl"
-            src={URL.createObjectURL(uploadIconData.main_pic)}
+            src={URL.createObjectURL(uploadEmoticonData.singleImage)}
             alt="Preview"
             style={{ width: "200px", height: "200px" }}
           />
@@ -115,7 +118,7 @@ const UploadIconsModal: React.FunctionComponent<UploadIconsModalProps> = ({
   };
 
   const renderUploadedFiles = () => {
-    if (!uploadIconData.icon_items.length) {
+    if (!uploadEmoticonData.multiImages.length) {
       return (
         <div
           className="border-2 px-[10px] py-[5px] flex justify-center items-center text-center w-full h-full hover:cursor-pointer"
@@ -129,7 +132,7 @@ const UploadIconsModal: React.FunctionComponent<UploadIconsModalProps> = ({
     } else {
       return (
         <div className="w-full h-[348px] grid grid-cols-3 gap-[10px] overflow-auto">
-          {uploadIconData.icon_items.map((icon_item, index) => {
+          {uploadEmoticonData.multiImages.map((icon_item, index) => {
             return (
               <div className="relative w-[200px] h-[200px]">
                 <img
@@ -140,8 +143,8 @@ const UploadIconsModal: React.FunctionComponent<UploadIconsModalProps> = ({
                 <div
                   className="absolute top-[5px] right-[5px] text-red-500 border-2 border-red-500 px-[5px] hover:cursor-pointer bg-white"
                   onClick={() => {
-                    uploadIconData.icon_items.splice(index, 1);
-                    setUploadIconData({ ...uploadIconData });
+                    uploadEmoticonData.multiImages.splice(index, 1);
+                    setUploadEmoticonData({ ...uploadEmoticonData });
                   }}
                 >
                   x
@@ -195,11 +198,11 @@ const UploadIconsModal: React.FunctionComponent<UploadIconsModalProps> = ({
           <div className="font-extralight text-center">이모티콘 이름 :</div>
           <input
             className="border-2 px-[10px] py-[5px]"
-            value={uploadIconData.name}
+            value={uploadEmoticonData.emoticonName}
             onChange={(e) => {
-              setUploadIconData({
-                ...uploadIconData,
-                name: e.target.value,
+              setUploadEmoticonData({
+                ...uploadEmoticonData,
+                emoticonName: e.target.value,
               });
             }}
           />

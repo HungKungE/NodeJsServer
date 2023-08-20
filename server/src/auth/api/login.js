@@ -8,7 +8,7 @@ router.post("/", async (req, res) => {
 
   const user_data = await authContext.getUserDataByEmail(email);
 
-  if (!user_data.convert_key){
+  if (!user_data) {
     res.status(401).json({ success: false, error: "Wrong Email!" });
     return;
   }
@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
     res.status(401).json({ success: false, error: "Password is not Correct." });
     return;
   }
-  
+
   const token = authContext.createToken(user_data);
 
   req.session.token = token;

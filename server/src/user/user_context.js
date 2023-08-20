@@ -12,49 +12,63 @@ function createUserInfo(email, password, nickname, convert_key) {
       password: password,
       nickname: nickname,
       convert_key: convert_key,
-    }).then((user_info)=>{
-      console.log("new_user:"+user_info.nickname);
-      resolve(true);
-    }).catch((err) => {
-      console.error(err);
-      reject(err);
-      return;
-    });
+    })
+      .then((user_info) => {
+        console.log("new_user:" + user_info.nickname);
+        resolve(true);
+      })
+      .catch((err) => {
+        console.error(err);
+        reject(err);
+        return;
+      });
   });
 }
 
 // DB update --------------------------------------------------
 function updateUserNickname(email, nickname) {
   return new Promise((resolve, reject) => {
-    UserInfo.update({
-      nickname: nickname,
-    },{
-      where : {
-        email : email
-    }}).then(()=>{
-      resolve(true);
-    }).catch((err) => {
-      console.error(err);
-      reject(err);
-      return;
-    });
+    UserInfo.update(
+      {
+        nickname: nickname,
+      },
+      {
+        where: {
+          email: email,
+        },
+      }
+    )
+      .then(() => {
+        resolve(true);
+      })
+      .catch((err) => {
+        console.error(err);
+        reject(err);
+        return;
+      });
   });
 }
 
 function updateUserPassword(email, password) {
   return new Promise((resolve, reject) => {
-    UserInfo.update({
-      password: password,
-    },{
-      where : {
-        email : email
-    }}).then(()=>{
-      resolve(true);
-    }).catch((err) => {
-      console.error(err);
-      reject(err);
-      return;
-    });
+    UserInfo.update(
+      {
+        password: password,
+      },
+      {
+        where: {
+          email: email,
+        },
+      }
+    )
+      .then(() => {
+        resolve(true);
+      })
+      .catch((err) => {
+        console.error(err);
+        reject(err);
+        return;
+      });
   });
 }
 
@@ -63,14 +77,16 @@ function getUserDataByNickname(nickname) {
   return new Promise((resolve, reject) => {
     UserInfo.findOne({
       raw: true,
-      where : {nickname : nickname}
-    }).then((user_data)=>{
-      resolve(user_data);
-    }).catch((err) => {
-      console.error(err);
-      reject(err);
-      return;
-    });
+      where: { nickname: nickname },
+    })
+      .then((user_data) => {
+        resolve(user_data);
+      })
+      .catch((err) => {
+        console.error(err);
+        reject(err);
+        return;
+      });
   });
 }
 

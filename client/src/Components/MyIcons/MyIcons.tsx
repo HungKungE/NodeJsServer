@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PlusIcon from "../../Icons/Imgs/plus-svgrepo-com (2).svg";
 import UploadIconsModal from "./Modal/UploadIconsModal";
 
 const MyIcons: React.FunctionComponent = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (openModal) {
+      return;
+    }
+    /* modal이 닫히면 이모티콘 리스트 새로 받아오기 */
+  }, [openModal]);
 
   return (
     <div className="flex flex-col w-full h-full px-[30px] py-[20px] items-center">
