@@ -12,14 +12,20 @@ interface SignInProps {
 
 const SignIn: React.FunctionComponent<SignInProps> = ({ setPageType }) => {
   const navigate = useNavigate();
+
   const loginState = useLogin();
+
   const [userData, setUserData] = useState<SignInUserInfo>({
     email: "",
     password: "",
   });
+
   const [doRememberUserId, setRemember] = useState<boolean>(false);
+
   const [cookies, setCookies, removeCookies] = useCookies(["rememberUserId"]);
 
+  // 아이디 기억 cookie 있으면
+  // 저장된 아이디 input에 추가
   useEffect(() => {
     if (cookies.rememberUserId) {
       setUserData({ ...userData, email: cookies.rememberUserId });
@@ -29,7 +35,12 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ setPageType }) => {
 
   useEffect(() => {
     if (doRememberUserId) {
-      setCookies("rememberUserId", userData.email);
+      const expirationDate = new Date();
+
+      expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+
+      // 쿠키 유효기간 1년 설정
+      setCookies("rememberUserId", userData.email, { expires: expirationDate });
     } else {
       removeCookies("rememberUserId");
     }
