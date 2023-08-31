@@ -24,12 +24,27 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ setPageType }) => {
 
   const [cookies, setCookies, removeCookies] = useCookies(["rememberUserId"]);
 
-  // 아이디 기억 cookie 있으면
-  // 저장된 아이디 input에 추가
   useEffect(() => {
+    // 아이디 기억 cookie 있으면
+    // 저장된 아이디 input에 추가
     if (cookies.rememberUserId) {
       setUserData({ ...userData, email: cookies.rememberUserId });
       setRemember(true);
+    }
+
+    // 이미 로그인 되어 있다면 home으로 이동
+    if (!loginState.isLogin) {
+      return;
+    }
+
+    // 마지막로그인 시간 + 1시간 = 만료시간
+    // 현재시간 > 만료시간
+    const expiredTime = loginState.loginTime.setHours(
+      loginState.loginTime.getHours() + 1
+    );
+
+    if (expiredTime < Date.now()) {
+      navigate("/home");
     }
   }, []);
 
