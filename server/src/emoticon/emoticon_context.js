@@ -74,11 +74,11 @@ function createMultiEmoticonItem(emotion_item_list) {
   });
 }
 
-function getFolderList(user_id) {
+function getUsageEmoticons(user_id) {
   return new Promise((resolve, reject) => {
-    Folder.findAll({
+    EmoticonUsage.findAll({
       raw: true,
-      where: { user_id: user_id },
+      where: { requester_id: user_id },
     })
       .then((folders) => {
         console.log("get:", folders);
@@ -92,21 +92,51 @@ function getFolderList(user_id) {
   });
 }
 
-function addNewImage(img_name, user_id, folder_id) {
+function getUsageEmoticons(user_id) {
   return new Promise((resolve, reject) => {
-    Image.create({
-      img_name: img_name,
+    EmoticonUsage.findAll({
+      raw: true,
+      where: { requester_id: user_id },
     })
-      .then((image) => {
-        console.log("create1:", image);
-        UserImage.create({
-          user_id: user_id,
-          folder_id: folder_id,
-          img_id: image.img_id,
-        }).then((user_img) => {
-          console.log("create2:", user_img);
-          resolve(true);
-        });
+      .then((folders) => {
+        console.log("get:", folders);
+        resolve(folders);
+      })
+      .catch((err) => {
+        console.error(err);
+        reject(err);
+        return;
+      });
+  });
+}
+
+function getUsageEmoticons(user_id) {
+  return new Promise((resolve, reject) => {
+    EmoticonUsage.findAll({
+      raw: true,
+      where: { requester_id: user_id },
+    })
+      .then((folders) => {
+        console.log("get:", folders);
+        resolve(folders);
+      })
+      .catch((err) => {
+        console.error(err);
+        reject(err);
+        return;
+      });
+  });
+}
+
+function getMultiMainEmoticonItems(emoticon_id) {
+  return new Promise((resolve, reject) => {
+    Emoticon.findAll({
+      raw: true,
+      where: { requester_id: user_id },
+    })
+      .then((folders) => {
+        console.log("get:", folders);
+        resolve(folders);
       })
       .catch((err) => {
         console.error(err);
@@ -121,4 +151,5 @@ module.exports = {
   createEmoticonUploader: createEmoticonUploader,
   createEmoticonUsage: createEmoticonUsage,
   createMultiEmoticonItem: createMultiEmoticonItem,
+  getUsageEmoticons: getUsageEmoticons,
 };
