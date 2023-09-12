@@ -39,11 +39,10 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ setPageType }) => {
 
     // 마지막로그인 시간 + 1시간 = 만료시간
     // 현재시간 > 만료시간
-    const expiredTime = loginState.loginTime.setHours(
-      loginState.loginTime.getHours() + 1
-    );
+    const expiredTime = new Date(loginState.loginTime);
+    expiredTime.setHours(expiredTime.getHours() + 1);
 
-    if (expiredTime < Date.now()) {
+    if (expiredTime.getTime() < Date.now()) {
       navigate("/home");
     }
   }, []);

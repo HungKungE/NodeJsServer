@@ -18,12 +18,13 @@ const SignUp: React.FunctionComponent<SignUpProps> = ({ setPageType }) => {
   const inputStyle =
     "rounded-xl border p-4 w-full my-[10px] bg-transparent  border-white text-white  placeholder-white hover:cursor-pointer";
 
-  const emailReg = new RegExp(
-    "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
-  );
+  const emailReg = new RegExp("^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,24}$");
 
   const checkPassword = () => {
-    if (userData.password.value.length < 7) {
+    if (
+      userData.password.value.length < 8 ||
+      userData.password.value.length > 24
+    ) {
       alert("비밀번호 길이가 짧습니다.");
     } else if (!emailReg.test(userData.email)) {
       alert("메일이 잘못됬습니다.");

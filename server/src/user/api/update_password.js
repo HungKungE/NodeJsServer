@@ -5,6 +5,7 @@ const router = express.Router();
 const userContext = require("../user_context");
 const authContext = require("../../auth/auth_context");
 const sessionAuth = require("../../api/sessionAuth");
+const { checkPassword } = require("../../util/check_user_input");
 
 router.post("/", sessionAuth, async (req, res) => {
   try {
@@ -12,20 +13,33 @@ router.post("/", sessionAuth, async (req, res) => {
     const user_info = req.user_info;
     const password = req.body.password;
 
+    if (!checkPassword(password)) {
+      return res
+        .status(400)
+        .json({ success: false, error: "비밀번호 정책 위반" });
+    }
+
     const user_data = await authContext.getUserDataByEmail(user_info.email);
 
-    const convert_password = await userContext.convertPassword(password, user_data.convert_key);
+    const convert_password = await userContext.convertPassword(
+      password,
+      user_data.convert_key
+    );
 
-    if(user_data.password === convert_password){
-      return res.status(200).json({ success: false, error: "이미 사용한 비밀번호입니다!" });
+    if (user_data.password === convert_password) {
+      return res
+        .status(200)
+        .json({ success: false, error: "이미 사용한 비밀번호입니다!" });
     }
 
     await userContext.updateUserPassword(user_info.email, convert_password);
 
     return res.status(200).json({ success: true, error: "" });
-  } catch(err) {
+  } catch (err) {
     console.error(err);
-    return res.status(500).json({ success: false, error: "server error:"+err });
+    return res
+      .status(500)
+      .json({ success: false, error: "server error:" + err });
   }
 });
 

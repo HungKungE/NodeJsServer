@@ -6,6 +6,13 @@ const userContext = require("../../user/user_context");
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
 
+  // email, password 규칙 확인 로직을 함수로 만들기
+  // 해당 로직으로 email, password 확인해서 에러처리하기
+  if (!email.length || !password.length) {
+    res.status(400).json({ success: false, error: "잘못된 입력." });
+    return;
+  }
+
   const user_data = await authContext.getUserDataByEmail(email);
 
   if (!user_data) {
