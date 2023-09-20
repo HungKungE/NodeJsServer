@@ -16,7 +16,7 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ setPageType }) => {
   const loginState = useLogin();
 
   const [userData, setUserData] = useState<SignInUserInfo>({
-    email: "",
+    id: "",
     password: "",
   });
 
@@ -28,7 +28,7 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ setPageType }) => {
     // 아이디 기억 cookie 있으면
     // 저장된 아이디 input에 추가
     if (cookies.rememberUserId) {
-      setUserData({ ...userData, email: cookies.rememberUserId });
+      setUserData({ ...userData, id: cookies.rememberUserId });
       setRemember(true);
     }
 
@@ -54,7 +54,7 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ setPageType }) => {
       expirationDate.setFullYear(expirationDate.getFullYear() + 1);
 
       // 쿠키 유효기간 1년 설정
-      setCookies("rememberUserId", userData.email, { expires: expirationDate });
+      setCookies("rememberUserId", userData.id, { expires: expirationDate });
     } else {
       removeCookies("rememberUserId");
     }
@@ -70,7 +70,7 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ setPageType }) => {
     sendLogInRequest(userData).then((res) => {
       loginState.setEmail(res.email);
       loginState.setIsLogin(true);
-      loginState.setNickname(res.nickname);
+      loginState.setId(res.id);
       loginState.setLoginTime(new Date());
       navigate("/home");
     });
@@ -90,10 +90,10 @@ const SignIn: React.FunctionComponent<SignInProps> = ({ setPageType }) => {
       <div className="flex flex-col w-full justify-center items-center px-[30px] gap-4">
         <input
           className={inputStyle}
-          value={userData.email}
+          value={userData.id}
           placeholder="Username"
           onChange={(e) => {
-            setUserData({ ...userData, email: e.target.value });
+            setUserData({ ...userData, id: e.target.value });
           }}
         />
         <input

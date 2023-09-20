@@ -27,7 +27,7 @@ const Home: React.FunctionComponent = () => {
       <div>
         <div className="flex flex-row">
           <div>nickname:</div>
-          <div>{loginState.nickname}</div>
+          <div>{loginState.id}</div>
         </div>
       </div>
     );

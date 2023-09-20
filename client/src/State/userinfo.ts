@@ -2,16 +2,16 @@ import { StateCreator, create } from "zustand";
 import { PersistOptions, persist } from "zustand/middleware";
 
 interface LoginState {
+  id: string;
   email: string;
-  nickname: string;
   isLogin: boolean;
   loginTime: Date;
 }
 
 interface LoginAction {
-  setEmail: (email:string) => void;
+  setEmail: (email: string) => void;
   setIsLogin: (isLoggined: boolean) => void;
-  setNickname: (nickname: string) => void;
+  setId: (id: string) => void;
   setLoginTime: (login_time: Date) => void;
   setInitialize: () => void;
 }
@@ -28,11 +28,10 @@ export const useLogin = create<LoginStore>(
     (set) => ({
       email: "",
       isLogin: false,
-      nickname: "",
+      id: "",
       loginTime: new Date(),
       setEmail: (email) => set((state) => ({ ...state, email: email })),
-      setNickname: (nickname) =>
-        set((state) => ({ ...state, nickname: nickname })),
+      setId: (id) => set((state) => ({ ...state, id: id })),
       setIsLogin: (isLogin) => set((state) => ({ ...state, isLogin: isLogin })),
       setLoginTime: (login_time) => {
         set((state) => ({ ...state, loginTime: login_time }));
@@ -41,7 +40,7 @@ export const useLogin = create<LoginStore>(
         set((state) => ({
           ...state,
           email: "",
-          nickname: "",
+          id: "",
           isLogin: false,
           loginTime: new Date(),
         })),

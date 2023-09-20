@@ -12,7 +12,9 @@ const sessionAuth = (req, res, next) => {
   }
   // 세션에서 사용자 정보를 request 객체에 저장하여 다른 핸들러에서 사용할 수 있도록 함
   req.user_info = jwt.verify(token, tokenKey);
-  
+
+  console.log(req.user_info);
+
   next();
 };
 

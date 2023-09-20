@@ -5,16 +5,16 @@ const UserInfo = require("../connect/models/user_info");
 // our_val
 
 // DB create-------------------------------------------------------
-function createUserInfo(email, password, nickname, convert_key) {
+function createUserInfo(id, email, password, convert_key) {
   return new Promise((resolve, reject) => {
     UserInfo.create({
+      ID: id,
       email: email,
       password: password,
-      nickname: nickname,
       convert_key: convert_key,
     })
       .then((user_info) => {
-        console.log("new_user:" + user_info.nickname);
+        console.log("new_user:" + user_info.ID);
         resolve(true);
       })
       .catch((err) => {
@@ -26,29 +26,6 @@ function createUserInfo(email, password, nickname, convert_key) {
 }
 
 // DB update --------------------------------------------------
-function updateUserNickname(email, nickname) {
-  return new Promise((resolve, reject) => {
-    UserInfo.update(
-      {
-        nickname: nickname,
-      },
-      {
-        where: {
-          email: email,
-        },
-      }
-    )
-      .then(() => {
-        resolve(true);
-      })
-      .catch((err) => {
-        console.error(err);
-        reject(err);
-        return;
-      });
-  });
-}
-
 function updateUserPassword(email, password) {
   return new Promise((resolve, reject) => {
     UserInfo.update(
@@ -73,11 +50,11 @@ function updateUserPassword(email, password) {
 }
 
 // DB select --------------------------------------------------
-function getUserDataByNickname(nickname) {
+function getUserDataById(id) {
   return new Promise((resolve, reject) => {
     UserInfo.findOne({
       raw: true,
-      where: { nickname: nickname },
+      where: { id: id },
     })
       .then((user_data) => {
         resolve(user_data);
@@ -116,10 +93,9 @@ function convertPassword(password, convert_key) {
 }
 
 module.exports = {
-  createUserInfo: createUserInfo,
-  getUserDataByNickname: getUserDataByNickname,
-  updateUserNickname: updateUserNickname,
-  updateUserPassword: updateUserPassword,
-  createRandomString: createRandomString,
-  convertPassword: convertPassword,
+  createUserInfo,
+  getUserDataById,
+  updateUserPassword,
+  createRandomString,
+  convertPassword,
 };

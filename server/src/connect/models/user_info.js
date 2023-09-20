@@ -10,14 +10,14 @@ const UserInfo = sequelize.define(
       autoIncrement: true,
       allowNull: false,
     },
-    nickname: {
+    ID: {
       type: DataTypes.STRING(255),
+      unique: true,
       allowNull: false,
     },
     email: {
       type: DataTypes.STRING(255),
-      unique: true,
-      allowNull: false,
+      allowNull: true,
     },
     password: {
       type: DataTypes.STRING(255),

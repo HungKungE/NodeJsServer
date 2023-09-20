@@ -20,7 +20,7 @@ const Profile: React.FunctionComponent = () => {
         <div className="w-full h-full flex flex-col justify-center items-center gap-10">
           <div className="flex flex-row justify-center items-center">
             <p>Username:</p>
-            <p>{loginState.nickname}</p>
+            <p>{loginState.id}</p>
           </div>
           <div className="flex flex-row justify-center items-center">
             <p>email:</p>

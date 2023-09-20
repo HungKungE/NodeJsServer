@@ -5,16 +5,14 @@ dotenv.config();
 // our_modules
 const UserInfo = require("../connect/models/user_info");
 // our_val
-const accessTokenKey = process.env.ACCESS_TOKEN_KEY;
-const refreshTokenKey = process.env.REFRESH_TOKEN_KEY;
 const tokenKey = process.env.TOKEN_KEY;
 
 // DB SELECT -------------------------------------------------------------
-function getUserDataByEmail(email) {
+const getUserDataById = (inputId) => {
   return new Promise((resolve, reject) => {
     const user_data = UserInfo.findOne({
       raw: true,
-      where: { email: email },
+      where: { ID: inputId },
     }).catch((err) => {
       console.error(err);
       reject(err);
@@ -28,7 +26,7 @@ function getUserDataByEmail(email) {
     }
     resolve(user_data);
   });
-}
+};
 
 // Token ------------------------------------------------------------------
 function createToken(user_data) {
@@ -67,7 +65,7 @@ function checkAndUpdateToken(token) {
 }
 
 module.exports = {
-  getUserDataByEmail: getUserDataByEmail,
-  createToken: createToken,
-  checkAndUpdateToken: checkAndUpdateToken,
+  getUserDataById,
+  createToken,
+  checkAndUpdateToken,
 };

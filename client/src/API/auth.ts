@@ -1,5 +1,5 @@
 import { sendPostRequest } from "./api";
-import { SignInUserInfo } from './user';
+import { SignInUserInfo } from "./user";
 
 export const sendLogInRequest = (userData: SignInUserInfo) => {
   return sendPostRequest("/auth/login", userData);

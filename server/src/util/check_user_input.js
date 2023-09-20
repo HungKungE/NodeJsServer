@@ -1,13 +1,15 @@
-const check_email = (email) => {
+const checkId = (ID) => {
   // 그냥 ID로 바꾸자
   // ID -> 5글자 이상, 20글자 이하
   // 영어, 숫자만 허용
-  const checkChars = new RegExp("^[a-zA-Z\\d]{5,20}$");
+  const checkChars = new RegExp("^[a-zA-Z\\d가-힣]{3,20}$");
 
-  return checkChars.test(email);
+  console.log(ID);
+
+  return checkChars.test(ID) && typeof ID !== "undefined";
 };
 
-const check_password = (password) => {
+const checkPassword = (password) => {
   /*
       ^[ ] : 대괄호 안의 문자로 시작한다.
       a-zA-Z : 영어문자
@@ -17,10 +19,10 @@ const check_password = (password) => {
   */
   const checkChars = new RegExp("^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,24}$");
 
-  return checkChars.test(password);
+  return checkChars.test(password) && typeof password !== "undefined";
 };
 
 module.exports = {
-  checkEmail: check_email,
-  checkPassword: check_password,
+  checkId,
+  checkPassword,
 };
